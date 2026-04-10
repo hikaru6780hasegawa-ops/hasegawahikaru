@@ -39,7 +39,6 @@ async def download_file(bot,file_id):
         return r.content
 
 async def show_menu(update,context):
-    kb=[[InlineKeyboardButton("💬 AIチャット",callback_data="mode_chat"),InlineKeyboardButton("📄 ファイル解析",callback_data="mode_file")],[InlineKeyboardButton("🖼 画像解析",callback_data="mode_image"),InlineKeyboardButton("🎤 音声解析",callback_data="mode_voice")],[InlineKeyboardButton("📊 Googleシート",callback_data="mode_sheet"),InlineKeyboardButton("⚡ n8n連携",callback_data="mode_n8n")],[InlineKeyboardButton("🔄 リセット",callback_data="reset"),InlineKeyboardButton("📈 状態",callback_data="status")]]
     markup=InlineKeyboardMarkup(kb)
     text="🔥 *Martial Arts AI Bot*\n\n機能を選択、または直接メッセージでAIチャット"
     if update.callback_query:
@@ -69,7 +68,6 @@ async def callback_handler(update,context):
     if data=="status":
         turns=len(conversations.get(uid,[]))//2
         await q.edit_message_text(f"📊 会話ターン:{turns}\nn8n:{'✅' if N8N_WEBHOOK_URL else '❌'}\nシート:{'✅' if GOOGLE_SHEET_ID else '❌'}\n\n/menu で戻る");return
-    modes={"mode_chat":("chat","💬 AIチャットモード\nメッセージを送ってください"),"mode_file":("file","📄 ファイル解析モード\nPDF・テキストを送ってください"),"mode_image":("image","🖼 画像解析モード\n画像を送ってください"),"mode_voice":("voice","🎤 音声解析モード\nボイスメッセージを送ってください"),"mode_sheet":("sheet","📊 Googleシートモード\nテキストを送ると書き込みます"),"mode_n8n":("n8n","⚡ n8n連携モード\n送信データを入力してください")}
     if data in modes:
         mode,msg=modes[data];context.user_data["mode"]=mode
         await q.edit_message_text(f"{msg}\n\n/menu で戻る")
