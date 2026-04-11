@@ -85,7 +85,11 @@ async def callback_handler(update,context):
 async def handle_text(update,context):
     uid=update.effective_user.id
     if not is_allowed(uid):await update.message.reply_text("⛔ アクセス権限なし");return
-    text=update.message.text.strip();mode=context.user_data.get("mode","chat")
+    text=update.message.text.strip()
+    user_name=update.message.from_user.first_name or "Unknown"
+    await send_to_slack(text, user_name)
+    user_name=update.message.from_user.first_name or "Unknown"
+    await send_to_slack(text, user_name);mode=context.user_data.get("mode","chat")
     if mode=="sheet":
         if not GOOGLE_SHEET_ID:await update.message.reply_text("❌ GOOGLE_SHEET_ID未設定");return
         await update.message.reply_text("📊 シート連携はGOOGLE_SHEET_IDとGOOGLE_API_KEY設定後に使用可");return
