@@ -2,3 +2,5 @@ anthropic
 python-telegram-bot
 httpx
 slack_sdk
+gspread
+google-auth
