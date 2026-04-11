@@ -39,6 +39,12 @@ async def download_file(bot,file_id):
         return r.content
 
 async def show_menu(update,context):
+    kb=[
+        [InlineKeyboardButton("🏠 不動産",callback_data="real_estate"),InlineKeyboardButton("🔥 保険",callback_data="insurance")],
+        [InlineKeyboardButton("☀️ 太陽光",callback_data="solar"),InlineKeyboardButton("💍 婚活",callback_data="marriage")],
+        [InlineKeyboardButton("💧 浄水器",callback_data="water"),InlineKeyboardButton("🚗 レンタカー",callback_data="rental")],
+        [InlineKeyboardButton("💬 AIチャット",callback_data="chat")]
+    ]
     markup=InlineKeyboardMarkup(kb)
     text="🔥 *Martial Arts AI Bot*\n\n機能を選択、または直接メッセージでAIチャット"
     if update.callback_query:
