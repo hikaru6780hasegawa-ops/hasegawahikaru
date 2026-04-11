@@ -1,3 +1,21 @@
+async def save_to_sheet(user_name, message, ai_reply):
+    import httpx, json
+    from datetime import datetime
+    gas_url = os.environ.get("GAS_WEBHOOK_URL", "")
+    if not gas_url:
+        return
+    try:
+        data = {
+            "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "user_name": user_name,
+            "message": message,
+            "ai_reply": ai_reply
+        }
+        async with httpx.AsyncClient() as client:
+            await client.post(gas_url, json=data, timeout=10)
+    except Exception as e:
+        logger.error(f"GAS error: {e}")
+
 async def send_to_slack(text, user_name="Telegram"):
     if slack_client:
         try:
@@ -111,6 +129,7 @@ async def handle_text(update,context):
     try:
         reply=await asyncio.to_thread(ask_claude,uid,text)
         await update.message.reply_text(reply)
+        await save_to_sheet(user_name, text, reply)
     except Exception as e:await update.message.reply_text(f"❌ {e}")
 
 async def handle_document(update,context):
@@ -127,6 +146,7 @@ async def handle_document(update,context):
             content=f"ファイル({fname})を解析:\n\n{text[:8000]}"
         reply=await asyncio.to_thread(ask_claude,uid,content)
         await update.message.reply_text(reply)
+        await save_to_sheet(user_name, text, reply)
     except Exception as e:await update.message.reply_text(f"❌ {e}")
 
 async def handle_photo(update,context):
@@ -139,6 +159,7 @@ async def handle_photo(update,context):
         content=[{"type":"image","source":{"type":"base64","media_type":"image/jpeg","data":b64}},{"type":"text","text":caption}]
         reply=await asyncio.to_thread(ask_claude,uid,content)
         await update.message.reply_text(reply)
+        await save_to_sheet(user_name, text, reply)
     except Exception as e:await update.message.reply_text(f"❌ {e}")
 
 async def handle_voice(update,context):
