@@ -1,0 +1,5 @@
+services:
+  - type: web
+    name: hasegawahikaru
+    env: python
+    startCommand: python3 restart_wrapper.py
