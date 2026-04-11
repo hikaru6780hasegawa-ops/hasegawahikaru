@@ -1,3 +1,10 @@
+async def send_to_slack(text, user_name="Telegram"):
+    if slack_client:
+        try:
+            slack_client.chat_postMessage(channel=SLACK_CHANNEL, text=f"[Telegram:{user_name}] {text}")
+        except Exception as e:
+            logger.error(f"Slack error: {e}")
+
 import os,sys,logging,asyncio,base64,json
 from slack_sdk import WebClient
 import httpx
