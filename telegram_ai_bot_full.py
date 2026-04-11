@@ -20,7 +20,7 @@ claude=Anthropic(api_key=ANTHROPIC_API_KEY)
 conversations={}
 SLACK_TOKEN=os.environ.get("SLACK_BOT_TOKEN","")
 slack_client=WebClient(token=SLACK_TOKEN) if SLACK_TOKEN else None
-SLACK_CHANNEL="C08G93KT2KU"
+SLACK_CHANNEL="C09LX94R78X"
 
 SYSTEM="あなたは株式会社Martial Artsの専用AIアシスタントです。代表取締役・長谷川光のTelegramから動作しています。モットー：炎であれ、昨日を超えろ、爪痕を残せ。簡潔・的確・行動志向で回答してください。"
 
