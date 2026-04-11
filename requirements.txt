@@ -4,3 +4,5 @@ httpx
 slack_sdk
 gspread
 google-auth
+gspread
+google-auth
