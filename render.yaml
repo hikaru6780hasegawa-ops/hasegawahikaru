@@ -1,5 +1,6 @@
 services:
-  - type: web
+  - type: worker
     name: hasegawahikaru
     env: python
+    buildCommand: pip install -r requirements.txt
     startCommand: python3 restart_wrapper.py
